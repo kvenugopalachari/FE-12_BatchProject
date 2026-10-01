@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - JobTrack</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="auth-page">
+
+    <div class="auth-container">
+
+        <div class="auth-box">
+
+            <div class="brand">
+                <h1>JobTrack</h1>
+                <p>Online Job Application Tracker</p>
+            </div>
+
+            <h2>Welcome Back</h2>
+            <p class="auth-subtitle">Login to manage your job applications</p>
+
+            <form id="loginForm">
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Login As</label>
+
+                    <select id="loginRole" required>
+                        <option value="">Select account type</option>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="primary-btn">
+                    Login
+                </button>
+
+            </form>
+
+            <p id="loginMessage" class="message"></p>
+
+            <div class="auth-footer">
+                <p>Don't have an account?</p>
+                <a href="signup.html">Create Account</a>
+            </div>
+
+            <div class="demo-info">
+                <strong>Demo Admin Login</strong>
+                <p>Email: admin@jobtrack.com</p>
+                <p>Password: admin123</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        // Create default admin account
+        function createDefaultAdmin() {
+
+            let users =
+                JSON.parse(localStorage.getItem("users")) || [];
+
+            const adminExists =
+                users.some(user => user.email === "admin@jobtrack.com");
+
+            if (!adminExists) {
+
+                users.push({
+                    name: "Administrator",
+                    email: "admin@jobtrack.com",
+                    password: "admin123",
+                    role: "admin"
+                });
+
+                localStorage.setItem(
+                    "users",
+                    JSON.stringify(users)
+                );
+            }
+        }
+
+
+        createDefaultAdmin();
+
+
+        document.getElementById("loginForm").addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+                const email =
+                    document.getElementById("email").value.trim();
+
+                const password =
+                    document.getElementById("password").value;
+
+                const role =
+                    document.getElementById("loginRole").value;
+
+                const message =
+                    document.getElementById("loginMessage");
+
+
+                const users =
+                    JSON.parse(localStorage.getItem("users")) || [];
+
+
+                const user = users.find(function(account) {
+
+                    return (
+                        account.email === email &&
+                        account.password === password &&
+                        account.role === role
+                    );
+
+                });
+
+
+                if (!user) {
+
+                    message.textContent =
+                        "Invalid email, password, or account type.";
+
+                    message.className = "message error";
+
+                    return;
+                }
+
+
+                localStorage.setItem(
+                    "loggedInUser",
+                    JSON.stringify(user)
+                );
+
+
+                message.textContent =
+                    "Login successful! Redirecting...";
+
+                message.className = "message success";
+
+
+                setTimeout(function() {
+
+                    if (role === "admin") {
+
+                        window.location.href =
+                            "admin-dashboard.html";
+
+                    } else {
+
+                        window.location.href =
+                            "user-module.html";
+
+                    }
+
+                }, 700);
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Reminders - JobTrack</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            JobTrack
+        </div>
+
+        <div class="nav-links">
+
+            <a href="user-module.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="add-job.html">Add Job</a>
+            <a href="applications.html">Applications</a>
+            <a href="interview.html">Interviews</a>
+            <a href="reminders.html">Reminders</a>
+            <a href="#" onclick="logout()">Logout</a>
+
+        </div>
+
+    </nav>
+
+
+    <main class="container">
+
+        <section class="page-header">
+
+            <div>
+
+                <h1>Reminders</h1>
+
+                <p>
+                    Keep track of important follow-ups.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="form-card">
+
+            <h2>Add Reminder</h2>
+
+
+            <form id="reminderForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Reminder Title</label>
+
+                        <input
+                            type="text"
+                            id="reminderTitle"
+                            placeholder="Example: Follow up with HR"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Date</label>
+
+                        <input
+                            type="date"
+                            id="reminderDate"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Priority</label>
+
+                        <select id="priority">
+
+                            <option value="Low">
+                                Low
+                            </option>
+
+                            <option value="Medium">
+                                Medium
+                            </option>
+
+                            <option value="High">
+                                High
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Notes</label>
+
+                    <textarea
+                        id="reminderNotes"
+                        rows="4"
+                        placeholder="Add notes..."
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                >
+                    Add Reminder
+                </button>
+
+
+                <p id="reminderMessage" class="message"></p>
+
+            </form>
+
+        </section>
+
+
+        <section class="table-card">
+
+            <h2>My Reminders</h2>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Title</th>
+                            <th>Date</th>
+                            <th>Priority</th>
+                            <th>Notes</th>
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="reminderTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+    <script>
+
+        function loadReminders() {
+
+            const user =
+                JSON.parse(
+                    localStorage.getItem("loggedInUser")
+                );
+
+
+            if (!user) {
+
+                window.location.href = "index.html";
+
+                return;
+
+            }
+
+
+            const reminders =
+                JSON.parse(
+                    localStorage.getItem("reminders")
+                ) || [];
+
+
+            const userReminders =
+                reminders.filter(
+                    reminder =>
+                        reminder.userEmail === user.email
+                );
+
+
+            const table =
+                document.getElementById("reminderTable");
+
+
+            table.innerHTML = "";
+
+
+            if (userReminders.length === 0) {
+
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="empty-message">
+                            No reminders found.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+
+            }
+
+
+            userReminders.forEach(function(reminder) {
+
+                const row =
+                    document.createElement("tr");
+
+
+                row.innerHTML = `
+
+                    <td>${reminder.title}</td>
+
+                    <td>${reminder.date}</td>
+
+                    <td>
+                        <span class="priority-badge">
+                            ${reminder.priority}
+                        </span>
+                    </td>
+
+                    <td>${reminder.notes || "-"}</td>
+
+                    <td>
+
+                        <button
+                            class="danger-btn"
+                            onclick="deleteReminder(${reminder.id})"
+                        >
+                            Delete
+                        </button>
+
+                    </td>
+
+                `;
+
+
+                table.appendChild(row);
+
+            });
+
+        }
+
+
+        document.getElementById("reminderForm")
+            .addEventListener(
+                "submit",
+                function(event) {
+
+                    event.preventDefault();
+
+
+                    const user =
+                        JSON.parse(
+                            localStorage.getItem("loggedInUser")
+                        );
+
+
+                    let reminders =
+                        JSON.parse(
+                            localStorage.getItem("reminders")
+                        ) || [];
+
+
+                    const newReminder = {
+
+                        id: Date.now(),
+
+                        userEmail: user.email,
+
+                        title:
+                            document.getElementById(
+                                "reminderTitle"
+                            ).value,
+
+                        date:
+                            document.getElementById(
+                                "reminderDate"
+                            ).value,
+
+                        priority:
+                            document.getElementById(
+                                "priority"
+                            ).value,
+
+                        notes:
+                            document.getElementById(
+                                "reminderNotes"
+                            ).value
+
+                    };
+
+
+                    reminders.push(newReminder);
+
+
+                    localStorage.setItem(
+                        "reminders",
+                        JSON.stringify(reminders)
+                    );
+
+
+                    document.getElementById(
+                        "reminderMessage"
+                    ).textContent =
+                        "Reminder added successfully!";
+
+
+                    document.getElementById(
+                        "reminderMessage"
+                    ).className =
+                        "message success";
+
+
+                    document.getElementById(
+                        "reminderForm"
+                    ).reset();
+
+
+                    loadReminders();
+
+                }
+            );
+
+
+        function deleteReminder(id) {
+
+            let reminders =
+                JSON.parse(
+                    localStorage.getItem("reminders")
+                ) || [];
+
+
+            reminders =
+                reminders.filter(
+                    reminder =>
+                        reminder.id !== id
+                );
+
+
+            localStorage.setItem(
+                "reminders",
+                JSON.stringify(reminders)
+            );
+
+
+            loadReminders();
+
+        }
+
+
+        loadReminders();
+
+    </script>
+
+</body>
+
+</html>

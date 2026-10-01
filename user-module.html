@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>User Module - JobTrack</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            JobTrack
+        </div>
+
+        <div class="nav-links">
+
+            <a href="user-module.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="add-job.html">Add Job</a>
+            <a href="applications.html">Applications</a>
+            <a href="interview.html">Interviews</a>
+            <a href="reminders.html">Reminders</a>
+            <a href="#" onclick="logout()">Logout</a>
+
+        </div>
+
+    </nav>
+
+
+    <main class="container">
+
+        <section class="page-header">
+
+            <div>
+
+                <h1>
+                    Welcome, <span id="userName">User</span>!
+                </h1>
+
+                <p>
+                    Manage your complete job search in one place.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <h3>Total Applications</h3>
+                <p id="totalApplications">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Interviews</h3>
+                <p id="totalInterviews">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Reminders</h3>
+                <p id="totalReminders">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Account</h3>
+                <p>Active</p>
+            </div>
+
+        </section>
+
+
+        <section class="content-section">
+
+            <h2>User Module</h2>
+
+            <p class="section-description">
+                Select a feature to continue.
+            </p>
+
+
+            <div class="feature-grid">
+
+                <a href="dashboard.html" class="feature-card">
+
+                    <div class="feature-icon">📊</div>
+
+                    <h3>Dashboard</h3>
+
+                    <p>
+                        View your job search statistics.
+                    </p>
+
+                </a>
+
+
+                <a href="add-job.html" class="feature-card">
+
+                    <div class="feature-icon">➕</div>
+
+                    <h3>Add Job</h3>
+
+                    <p>
+                        Add a new job application.
+                    </p>
+
+                </a>
+
+
+                <a href="applications.html" class="feature-card">
+
+                    <div class="feature-icon">💼</div>
+
+                    <h3>Applications</h3>
+
+                    <p>
+                        Manage your job applications.
+                    </p>
+
+                </a>
+
+
+                <a href="interview.html" class="feature-card">
+
+                    <div class="feature-icon">📅</div>
+
+                    <h3>Interviews</h3>
+
+                    <p>
+                        Track your interviews.
+                    </p>
+
+                </a>
+
+
+                <a href="reminders.html" class="feature-card">
+
+                    <div class="feature-icon">🔔</div>
+
+                    <h3>Reminders</h3>
+
+                    <p>
+                        Manage follow-up reminders.
+                    </p>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <section class="profile-card">
+
+            <h2>My Profile</h2>
+
+            <div class="profile-grid">
+
+                <div>
+                    <strong>Name</strong>
+                    <p id="profileName">-</p>
+                </div>
+
+                <div>
+                    <strong>Email</strong>
+                    <p id="profileEmail">-</p>
+                </div>
+
+                <div>
+                    <strong>Role</strong>
+                    <p id="profileRole">-</p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
