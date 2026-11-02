@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Add Job - JobTrack</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            JobTrack
+        </div>
+
+        <div class="nav-links">
+
+            <a href="user-module.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="add-job.html">Add Job</a>
+            <a href="applications.html">Applications</a>
+            <a href="interview.html">Interviews</a>
+            <a href="reminders.html">Reminders</a>
+            <a href="#" onclick="logout()">Logout</a>
+
+        </div>
+
+    </nav>
+
+
+    <main class="container">
+
+        <section class="page-header">
+
+            <div>
+
+                <h1>Add Job Application</h1>
+
+                <p>
+                    Save a new job opportunity.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="form-card">
+
+            <form id="jobForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Company Name</label>
+
+                        <input
+                            type="text"
+                            id="company"
+                            placeholder="Example: Google"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Job Title</label>
+
+                        <input
+                            type="text"
+                            id="jobTitle"
+                            placeholder="Example: Software Developer"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Location</label>
+
+                        <input
+                            type="text"
+                            id="location"
+                            placeholder="Example: Hyderabad"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Application Date</label>
+
+                        <input
+                            type="date"
+                            id="applicationDate"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Status</label>
+
+                        <select id="status" required>
+
+                            <option value="Applied">
+                                Applied
+                            </option>
+
+                            <option value="Shortlisted">
+                                Shortlisted
+                            </option>
+
+                            <option value="Interview">
+                                Interview
+                            </option>
+
+                            <option value="Rejected">
+                                Rejected
+                            </option>
+
+                            <option value="Selected">
+                                Selected
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Job Type</label>
+
+                        <select id="jobType" required>
+
+                            <option value="Full Time">
+                                Full Time
+                            </option>
+
+                            <option value="Part Time">
+                                Part Time
+                            </option>
+
+                            <option value="Internship">
+                                Internship
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Job Description</label>
+
+                    <textarea
+                        id="description"
+                        rows="5"
+                        placeholder="Enter job details..."
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                >
+                    Save Application
+                </button>
+
+
+                <p id="jobMessage" class="message"></p>
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+    <script>
+
+        document.getElementById("jobForm").addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+
+                const user =
+                    JSON.parse(localStorage.getItem("loggedInUser"));
+
+
+                if (!user) {
+
+                    window.location.href = "index.html";
+
+                    return;
+
+                }
+
+
+                let applications =
+                    JSON.parse(
+                        localStorage.getItem("applications")
+                    ) || [];
+
+
+                const newApplication = {
+
+                    id: Date.now(),
+
+                    userEmail: user.email,
+
+                    company:
+                        document.getElementById("company").value,
+
+                    jobTitle:
+                        document.getElementById("jobTitle").value,
+
+                    location:
+                        document.getElementById("location").value,
+
+                    applicationDate:
+                        document.getElementById("applicationDate").value,
+
+                    status:
+                        document.getElementById("status").value,
+
+                    jobType:
+                        document.getElementById("jobType").value,
+
+                    description:
+                        document.getElementById("description").value
+
+                };
+
+
+                applications.push(newApplication);
+
+
+                localStorage.setItem(
+                    "applications",
+                    JSON.stringify(applications)
+                );
+
+
+                const message =
+                    document.getElementById("jobMessage");
+
+
+                message.textContent =
+                    "Job application saved successfully!";
+
+                message.className =
+                    "message success";
+
+
+                document.getElementById("jobForm").reset();
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
