@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Admin Dashboard - JobTrack</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            JobTrack Admin
+        </div>
+
+        <div class="nav-links">
+
+            <a href="admin-dashboard.html">
+                Admin Dashboard
+            </a>
+
+            <a href="#" onclick="logout()">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <main class="container">
+
+        <section class="page-header">
+
+            <div>
+
+                <h1>Admin Dashboard</h1>
+
+                <p>
+                    Manage users and monitor the system.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <h3>Total Users</h3>
+
+                <p id="totalUsers">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>Regular Users</h3>
+
+                <p id="regularUsers">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>Administrators</h3>
+
+                <p id="adminUsers">
+                    0
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>Applications</h3>
+
+                <p id="totalApplications">
+                    0
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="table-card">
+
+            <div class="section-title-row">
+
+                <div>
+
+                    <h2>User Management</h2>
+
+                    <p class="section-description">
+                        Registered users in the system.
+                    </p>
+
+                </div>
+
+                <button
+                    class="primary-btn small-btn"
+                    onclick="loadUsers()"
+                >
+                    Refresh
+                </button>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>S.No</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="userTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <section class="content-section">
+
+            <h2>Admin Functions</h2>
+
+
+            <div class="feature-grid">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        👥
+                    </div>
+
+                    <h3>User Management</h3>
+
+                    <p>
+                        View and manage registered users.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        📊
+                    </div>
+
+                    <h3>System Monitoring</h3>
+
+                    <p>
+                        Monitor applications and system data.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        ⚙️
+                    </div>
+
+                    <h3>System Status</h3>
+
+                    <p>
+                        JobTrack system is currently active.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+    <script>
+
+        function checkAdmin() {
+
+            const user =
+                JSON.parse(
+                    localStorage.getItem("loggedInUser")
+                );
+
+
+            if (!user || user.role !== "admin") {
+
+                window.location.href = "index.html";
+
+            }
+
+        }
+
+
+        function loadUsers() {
+
+            const users =
+                JSON.parse(
+                    localStorage.getItem("users")
+                ) || [];
+
+
+            const applications =
+                JSON.parse(
+                    localStorage.getItem("applications")
+                ) || [];
+
+
+            const regularUsers =
+                users.filter(
+                    user => user.role === "user"
+                ).length;
+
+
+            const adminUsers =
+                users.filter(
+                    user => user.role === "admin"
+                ).length;
+
+
+            document.getElementById(
+                "totalUsers"
+            ).textContent = users.length;
+
+
+            document.getElementById(
+                "regularUsers"
+            ).textContent = regularUsers;
+
+
+            document.getElementById(
+                "adminUsers"
+            ).textContent = adminUsers;
+
+
+            document.getElementById(
+                "totalApplications"
+            ).textContent = applications.length;
+
+
+            const table =
+                document.getElementById("userTable");
+
+
+            table.innerHTML = "";
+
+
+            users.forEach(function(user, index) {
+
+                const row =
+                    document.createElement("tr");
+
+
+                row.innerHTML = `
+
+                    <td>${index + 1}</td>
+
+                    <td>${user.name}</td>
+
+                    <td>${user.email}</td>
+
+                    <td>
+                        <span class="status-badge">
+                            ${user.role}
+                        </span>
+                    </td>
+
+                    <td>
+
+                        ${
+                            user.role === "admin"
+                            ?
+                            "<span>Protected</span>"
+                            :
+                            `<button
+                                class="danger-btn"
+                                onclick="deleteUser(${index})"
+                            >
+                                Delete
+                            </button>`
+                        }
+
+                    </td>
+
+                `;
+
+
+                table.appendChild(row);
+
+            });
+
+        }
+
+
+        function deleteUser(index) {
+
+            let users =
+                JSON.parse(
+                    localStorage.getItem("users")
+                ) || [];
+
+
+            const user = users[index];
+
+
+            if (!user || user.role === "admin") {
+
+                return;
+
+            }
+
+
+            const confirmDelete =
+                confirm(
+                    "Delete user " + user.name + "?"
+                );
+
+
+            if (!confirmDelete) {
+
+                return;
+
+            }
+
+
+            users.splice(index, 1);
+
+
+            localStorage.setItem(
+                "users",
+                JSON.stringify(users)
+            );
+
+
+            loadUsers();
+
+        }
+
+
+        checkAdmin();
+
+        loadUsers();
+
+    </script>
+
+</body>
+
+</html>

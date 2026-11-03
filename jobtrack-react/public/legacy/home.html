@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobTrack - Online Job Application Tracker</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .home-page {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f8ff;
+            color: #1e293b;
+        }
+
+        .home-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background: white;
+            box-shadow: 0 2px 10px #00000010;
+        }
+
+        .home-logo {
+            font-size: 26px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .home-nav a {
+            text-decoration: none;
+            color: #334155;
+            margin-left: 20px;
+            font-weight: 600;
+        }
+
+        .home-hero {
+            text-align: center;
+            padding: 85px 20px 65px;
+            background: linear-gradient(135deg, #eaf2ff, #ffffff);
+        }
+
+        .home-hero h1 {
+            font-size: clamp(34px, 5vw, 55px);
+            margin-bottom: 18px;
+            color: #172554;
+        }
+
+        .home-hero h1 span {
+            color: #2563eb;
+        }
+
+        .home-hero p {
+            max-width: 680px;
+            margin: 0 auto 28px;
+            line-height: 1.8;
+            color: #64748b;
+            font-size: 17px;
+        }
+
+        .home-btn {
+            display: inline-block;
+            padding: 14px 27px;
+            background: #2563eb;
+            color: white !important;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .home-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .home-btn.secondary {
+            background: white;
+            color: #2563eb !important;
+            border: 1px solid #2563eb;
+        }
+
+        .home-section {
+            padding: 55px 8%;
+            text-align: center;
+        }
+
+        .home-section h2 {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .home-description {
+            color: #64748b;
+            max-width: 700px;
+            line-height: 1.7;
+            margin: 0 auto 30px;
+        }
+
+        .home-cards {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .home-card {
+            background: white;
+            padding: 25px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px #0000000a;
+            text-align: left;
+        }
+
+        .home-card .feature-icon {
+            font-size: 30px;
+        }
+
+        .home-card h3 {
+            margin: 15px 0 10px;
+        }
+
+        .home-card p {
+            color: #64748b;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .home-how {
+            background: white;
+        }
+
+        .home-steps {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+            margin-top: 30px;
+        }
+
+        .home-step {
+            padding: 20px;
+        }
+
+        .home-step strong {
+            display: inline-grid;
+            place-items: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-size: 18px;
+        }
+
+        .home-footer {
+            background: #172554;
+            color: white;
+            padding: 25px;
+            text-align: center;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 850px) {
+            .home-cards {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 550px) {
+            .home-nav {
+                padding: 18px 5%;
+                flex-wrap: wrap;
+                gap: 14px;
+            }
+
+            .home-nav a {
+                margin-left: 10px;
+            }
+
+            .home-cards,
+            .home-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .home-section {
+                padding: 40px 6%;
+            }
+        }
+    </style>
+</head>
+
+<body class="home-page">
+
+    <header class="home-nav">
+        <div class="home-logo">JobTrack</div>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#features">Features</a>
+            <a href="index.html">Login</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="home-hero" id="home">
+            <h1>Your Job Search,<br>
+                <span>Organized in One Place.</span>
+            </h1>
+
+            <p>
+                JobTrack is an Online Job Application Tracker that helps
+                students and job seekers organize applications, monitor
+                progress, manage interviews, and stay on top of reminders.
+            </p>
+
+            <a href="signup.html" class="home-btn">Get Started →</a>
+            <a href="index.html" class="home-btn secondary">Login</a>
+        </section>
+
+        <section class="home-section" id="about">
+            <h2>About Our Project</h2>
+
+            <p class="home-description">
+                Applying for multiple jobs can make it difficult to remember
+                application details, interview dates, and follow-ups.
+                JobTrack provides a simple, centralized platform to manage
+                the job application process more efficiently.
+            </p>
+        </section>
+
+        <section class="home-section" id="features">
+            <h2>Key Features</h2>
+
+            <p class="home-description">
+                Everything you need to keep your job search organized.
+            </p>
+
+            <div class="home-cards">
+                <article class="home-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Application Tracking</h3>
+                    <p>
+                        Add job applications and track their progress
+                        in one organized place.
+                    </p>
+                </article>
+
+                <article class="home-card">
+                    <div class="feature-icon">📅</div>
+                    <h3>Interview Management</h3>
+                    <p>
+                        Keep track of interview schedules and
+                        important dates.
+                    </p>
+                </article>
+
+                <article class="home-card">
+                    <div class="feature-icon">🔔</div>
+                    <h3>Reminders</h3>
+                    <p>
+                        Organize follow-ups and remember important
+                        job application activities.
+                    </p>
+                </article>
+
+                <article class="home-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Admin & User Modules</h3>
+                    <p>
+                        Separate access for users to manage applications
+                        and administrators to access their dashboard.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <section class="home-section home-how">
+            <h2>How JobTrack Works</h2>
+
+            <div class="home-steps">
+                <div class="home-step">
+                    <strong>1</strong>
+                    <h3>Create an Account</h3>
+                    <p>Register and log in to your account.</p>
+                </div>
+
+                <div class="home-step">
+                    <strong>2</strong>
+                    <h3>Manage Applications</h3>
+                    <p>Add job details and monitor application progress.</p>
+                </div>
+
+                <div class="home-step">
+                    <strong>3</strong>
+                    <h3>Stay Organized</h3>
+                    <p>Manage interviews, reminders, and follow-ups.</p>
+                </div>
+            </div>
+
+            <a href="signup.html" class="home-btn">Start Using JobTrack →</a>
+        </section>
+    </main>
+
+    <footer class="home-footer">
+        <strong>JobTrack</strong>
+        <p>Online Job Application Tracker</p>
+        <p>Web Development Project | HTML, CSS & JavaScript</p>
+    </footer>
+
+</body>
+</html>

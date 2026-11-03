@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Interviews - JobTrack</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            JobTrack
+        </div>
+
+        <div class="nav-links">
+
+            <a href="user-module.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="add-job.html">Add Job</a>
+            <a href="applications.html">Applications</a>
+            <a href="interview.html">Interviews</a>
+            <a href="reminders.html">Reminders</a>
+            <a href="#" onclick="logout()">Logout</a>
+
+        </div>
+
+    </nav>
+
+
+    <main class="container">
+
+        <section class="page-header">
+
+            <div>
+
+                <h1>Interviews</h1>
+
+                <p>
+                    Schedule and manage your interviews.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="form-card">
+
+            <h2>Add Interview</h2>
+
+
+            <form id="interviewForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Company</label>
+
+                        <input
+                            type="text"
+                            id="interviewCompany"
+                            placeholder="Company name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Job Title</label>
+
+                        <input
+                            type="text"
+                            id="interviewJob"
+                            placeholder="Job title"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Interview Date</label>
+
+                        <input
+                            type="date"
+                            id="interviewDate"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Interview Time</label>
+
+                        <input
+                            type="time"
+                            id="interviewTime"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Interview Type</label>
+
+                        <select id="interviewType">
+
+                            <option value="Online">
+                                Online
+                            </option>
+
+                            <option value="Offline">
+                                Offline
+                            </option>
+
+                            <option value="Phone">
+                                Phone
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                >
+                    Add Interview
+                </button>
+
+
+                <p id="interviewMessage" class="message"></p>
+
+            </form>
+
+        </section>
+
+
+        <section class="table-card">
+
+            <h2>Upcoming Interviews</h2>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Company</th>
+                            <th>Job</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Type</th>
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="interviewTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+    <script>
+
+        function loadInterviews() {
+
+            const user =
+                JSON.parse(
+                    localStorage.getItem("loggedInUser")
+                );
+
+
+            if (!user) {
+
+                window.location.href = "index.html";
+
+                return;
+
+            }
+
+
+            const interviews =
+                JSON.parse(
+                    localStorage.getItem("interviews")
+                ) || [];
+
+
+            const userInterviews =
+                interviews.filter(
+                    interview =>
+                        interview.userEmail === user.email
+                );
+
+
+            const table =
+                document.getElementById("interviewTable");
+
+
+            table.innerHTML = "";
+
+
+            if (userInterviews.length === 0) {
+
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="empty-message">
+                            No interviews scheduled.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+
+            }
+
+
+            userInterviews.forEach(function(interview) {
+
+                const row =
+                    document.createElement("tr");
+
+
+                row.innerHTML = `
+
+                    <td>${interview.company}</td>
+
+                    <td>${interview.job}</td>
+
+                    <td>${interview.date}</td>
+
+                    <td>${interview.time}</td>
+
+                    <td>${interview.type}</td>
+
+                    <td>
+
+                        <button
+                            class="danger-btn"
+                            onclick="deleteInterview(${interview.id})"
+                        >
+                            Delete
+                        </button>
+
+                    </td>
+
+                `;
+
+
+                table.appendChild(row);
+
+            });
+
+        }
+
+
+        document.getElementById("interviewForm")
+            .addEventListener(
+                "submit",
+                function(event) {
+
+                    event.preventDefault();
+
+
+                    const user =
+                        JSON.parse(
+                            localStorage.getItem("loggedInUser")
+                        );
+
+
+                    let interviews =
+                        JSON.parse(
+                            localStorage.getItem("interviews")
+                        ) || [];
+
+
+                    const newInterview = {
+
+                        id: Date.now(),
+
+                        userEmail: user.email,
+
+                        company:
+                            document.getElementById(
+                                "interviewCompany"
+                            ).value,
+
+                        job:
+                            document.getElementById(
+                                "interviewJob"
+                            ).value,
+
+                        date:
+                            document.getElementById(
+                                "interviewDate"
+                            ).value,
+
+                        time:
+                            document.getElementById(
+                                "interviewTime"
+                            ).value,
+
+                        type:
+                            document.getElementById(
+                                "interviewType"
+                            ).value
+
+                    };
+
+
+                    interviews.push(newInterview);
+
+
+                    localStorage.setItem(
+                        "interviews",
+                        JSON.stringify(interviews)
+                    );
+
+
+                    document.getElementById(
+                        "interviewMessage"
+                    ).textContent =
+                        "Interview added successfully!";
+
+
+                    document.getElementById(
+                        "interviewMessage"
+                    ).className =
+                        "message success";
+
+
+                    document.getElementById(
+                        "interviewForm"
+                    ).reset();
+
+
+                    loadInterviews();
+
+                }
+            );
+
+
+        function deleteInterview(id) {
+
+            let interviews =
+                JSON.parse(
+                    localStorage.getItem("interviews")
+                ) || [];
+
+
+            interviews =
+                interviews.filter(
+                    interview =>
+                        interview.id !== id
+                );
+
+
+            localStorage.setItem(
+                "interviews",
+                JSON.stringify(interviews)
+            );
+
+
+            loadInterviews();
+
+        }
+
+
+        loadInterviews();
+
+    </script>
+
+</body>
+
+</html>

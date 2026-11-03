@@ -117,38 +117,6 @@
 
                     </div>
 
-
-                    <div class="form-group">
-
-                        <label>Status</label>
-
-                        <select id="status" required>
-
-                            <option value="Applied">
-                                Applied
-                            </option>
-
-                            <option value="Shortlisted">
-                                Shortlisted
-                            </option>
-
-                            <option value="Interview">
-                                Interview
-                            </option>
-
-                            <option value="Rejected">
-                                Rejected
-                            </option>
-
-                            <option value="Selected">
-                                Selected
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
                     <div class="form-group">
 
                         <label>Job Type</label>
@@ -208,86 +176,60 @@
 
     <script>
 
-        document.getElementById("jobForm").addEventListener(
-            "submit",
-            function(event) {
+document.getElementById("jobForm").addEventListener("submit", function(event) {
 
-                event.preventDefault();
+    event.preventDefault();
 
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
 
-                const user =
-                    JSON.parse(localStorage.getItem("loggedInUser"));
+    if (!user) {
+        window.location.href = "index.html";
+        return;
+    }
 
+    let applications = JSON.parse(
+        localStorage.getItem("applications")
+    ) || [];
 
-                if (!user) {
+    const newApplication = {
 
-                    window.location.href = "index.html";
+        id: Date.now(),
 
-                    return;
+        userEmail: user.email,
 
-                }
+        company: document.getElementById("company").value,
 
+        jobTitle: document.getElementById("jobTitle").value,
 
-                let applications =
-                    JSON.parse(
-                        localStorage.getItem("applications")
-                    ) || [];
+        location: document.getElementById("location").value,
 
+        applicationDate: document.getElementById("applicationDate").value,
 
-                const newApplication = {
+        status: "Applied",
 
-                    id: Date.now(),
+        jobType: document.getElementById("jobType").value,
 
-                    userEmail: user.email,
+        description: document.getElementById("description").value
 
-                    company:
-                        document.getElementById("company").value,
+    };
 
-                    jobTitle:
-                        document.getElementById("jobTitle").value,
+    applications.push(newApplication);
 
-                    location:
-                        document.getElementById("location").value,
+    localStorage.setItem(
+        "applications",
+        JSON.stringify(applications)
+    );
 
-                    applicationDate:
-                        document.getElementById("applicationDate").value,
+    const message = document.getElementById("jobMessage");
 
-                    status:
-                        document.getElementById("status").value,
+    message.textContent = "Job application saved successfully!";
 
-                    jobType:
-                        document.getElementById("jobType").value,
+    message.className = "message success";
 
-                    description:
-                        document.getElementById("description").value
+    document.getElementById("jobForm").reset();
 
-                };
+});
 
-
-                applications.push(newApplication);
-
-
-                localStorage.setItem(
-                    "applications",
-                    JSON.stringify(applications)
-                );
-
-
-                const message =
-                    document.getElementById("jobMessage");
-
-
-                message.textContent =
-                    "Job application saved successfully!";
-
-                message.className =
-                    "message success";
-
-
-                document.getElementById("jobForm").reset();
-
-            }
-        );
 
     </script>
 
