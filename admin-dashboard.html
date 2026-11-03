@@ -1,21 +1,15 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Admin Dashboard - JobTrack</title>
 
     <link rel="stylesheet" href="style.css">
-
 </head>
-
 
 <body>
 
@@ -26,15 +20,8 @@
         </div>
 
         <div class="nav-links">
-
-            <a href="admin-dashboard.html">
-                Admin Dashboard
-            </a>
-
-            <a href="#" onclick="logout()">
-                Logout
-            </a>
-
+            <a href="admin-dashboard.html">Admin Dashboard</a>
+            <a href="#" onclick="logout()">Logout</a>
         </div>
 
     </nav>
@@ -43,86 +30,56 @@
     <main class="container">
 
         <section class="page-header">
-
             <div>
-
                 <h1>Admin Dashboard</h1>
-
-                <p>
-                    Manage users and monitor the system.
-                </p>
-
+                <p>Manage users and monitor job applications.</p>
             </div>
-
         </section>
 
+
+        <!-- DASHBOARD STATISTICS -->
 
         <section class="stats-grid">
 
             <div class="stat-card">
-
                 <h3>Total Users</h3>
-
-                <p id="totalUsers">
-                    0
-                </p>
-
+                <p id="totalUsers">0</p>
             </div>
 
-
             <div class="stat-card">
-
                 <h3>Regular Users</h3>
-
-                <p id="regularUsers">
-                    0
-                </p>
-
+                <p id="regularUsers">0</p>
             </div>
 
-
             <div class="stat-card">
-
                 <h3>Administrators</h3>
-
-                <p id="adminUsers">
-                    0
-                </p>
-
+                <p id="adminUsers">0</p>
             </div>
 
-
             <div class="stat-card">
-
                 <h3>Applications</h3>
-
-                <p id="totalApplications">
-                    0
-                </p>
-
+                <p id="totalApplications">0</p>
             </div>
 
         </section>
 
+
+        <!-- USER MANAGEMENT -->
 
         <section class="table-card">
 
             <div class="section-title-row">
 
                 <div>
-
                     <h2>User Management</h2>
-
                     <p class="section-description">
                         Registered users in the system.
                     </p>
-
                 </div>
 
                 <button
                     class="primary-btn small-btn"
-                    onclick="loadUsers()"
-                >
+                    onclick="loadUsers()">
                     Refresh
                 </button>
 
@@ -134,23 +91,16 @@
                 <table>
 
                     <thead>
-
                         <tr>
-
                             <th>S.No</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Role</th>
                             <th>Action</th>
-
                         </tr>
-
                     </thead>
 
-
-                    <tbody id="userTable">
-
-                    </tbody>
+                    <tbody id="userTable"></tbody>
 
                 </table>
 
@@ -159,55 +109,123 @@
         </section>
 
 
+        <!-- APPLICATION MANAGEMENT -->
+
+        <section class="table-card">
+
+            <div class="section-title-row">
+
+                <div>
+                    <h2>Application Management</h2>
+                    <p class="section-description">
+                        Review applications and update user status.
+                    </p>
+                </div>
+
+                <button
+                    class="primary-btn small-btn"
+                    onclick="loadApplications()">
+                    Refresh
+                </button>
+
+            </div>
+
+
+            <!-- SEARCH AND FILTER -->
+
+            <div class="form-grid" style="margin-bottom: 20px;">
+
+                <div class="form-group">
+
+                    <label for="applicationSearch">
+                        Search Applications
+                    </label>
+
+                    <input
+                        type="text"
+                        id="applicationSearch"
+                        placeholder="Search user, company or job title..."
+                        oninput="loadApplications()">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="statusFilter">
+                        Filter by Status
+                    </label>
+
+                    <select
+                        id="statusFilter"
+                        onchange="loadApplications()">
+
+                        <option value="All">All Statuses</option>
+                        <option value="Applied">Applied</option>
+                        <option value="Shortlisted">Shortlisted</option>
+                        <option value="Interview">Interview</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Selected">Selected</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- APPLICATION TABLE -->
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>User</th>
+                            <th>Company</th>
+                            <th>Job Title</th>
+                            <th>Applied Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="applicationTable"></tbody>
+
+                </table>
+
+            </div>
+
+            <p id="applicationMessage" class="message"></p>
+
+        </section>
+
+
+        <!-- ADMIN FUNCTIONS -->
+
         <section class="content-section">
 
             <h2>Admin Functions</h2>
 
-
             <div class="feature-grid">
 
                 <div class="feature-card">
-
-                    <div class="feature-icon">
-                        👥
-                    </div>
-
+                    <div class="feature-icon">👥</div>
                     <h3>User Management</h3>
-
-                    <p>
-                        View and manage registered users.
-                    </p>
-
+                    <p>View and manage registered users.</p>
                 </div>
 
-
                 <div class="feature-card">
-
-                    <div class="feature-icon">
-                        📊
-                    </div>
-
-                    <h3>System Monitoring</h3>
-
-                    <p>
-                        Monitor applications and system data.
-                    </p>
-
+                    <div class="feature-icon">📊</div>
+                    <h3>Application Monitoring</h3>
+                    <p>Review and update job applications.</p>
                 </div>
 
-
                 <div class="feature-card">
-
-                    <div class="feature-icon">
-                        ⚙️
-                    </div>
-
+                    <div class="feature-icon">⚙️</div>
                     <h3>System Status</h3>
-
-                    <p>
-                        JobTrack system is currently active.
-                    </p>
-
+                    <p>JobTrack system is currently active.</p>
                 </div>
 
             </div>
@@ -221,115 +239,110 @@
 
     <script>
 
+        // CHECK ADMIN LOGIN
+
         function checkAdmin() {
 
-            const user =
-                JSON.parse(
-                    localStorage.getItem("loggedInUser")
-                );
-
+            const user = JSON.parse(
+                localStorage.getItem("loggedInUser")
+            );
 
             if (!user || user.role !== "admin") {
 
                 window.location.href = "index.html";
+                return false;
 
             }
+
+            return true;
 
         }
 
 
+        // LOAD USER DETAILS
+
         function loadUsers() {
 
-            const users =
-                JSON.parse(
-                    localStorage.getItem("users")
-                ) || [];
+            const users = JSON.parse(
+                localStorage.getItem("users")
+            ) || [];
 
 
-            const applications =
-                JSON.parse(
-                    localStorage.getItem("applications")
-                ) || [];
+            const regularUsers = users.filter(
+                user => user.role === "user"
+            ).length;
+
+            const adminUsers = users.filter(
+                user => user.role === "admin"
+            ).length;
 
 
-            const regularUsers =
-                users.filter(
-                    user => user.role === "user"
-                ).length;
+            document.getElementById("totalUsers").textContent =
+                users.length;
+
+            document.getElementById("regularUsers").textContent =
+                regularUsers;
+
+            document.getElementById("adminUsers").textContent =
+                adminUsers;
 
 
-            const adminUsers =
-                users.filter(
-                    user => user.role === "admin"
-                ).length;
-
-
-            document.getElementById(
-                "totalUsers"
-            ).textContent = users.length;
-
-
-            document.getElementById(
-                "regularUsers"
-            ).textContent = regularUsers;
-
-
-            document.getElementById(
-                "adminUsers"
-            ).textContent = adminUsers;
-
-
-            document.getElementById(
-                "totalApplications"
-            ).textContent = applications.length;
-
-
-            const table =
-                document.getElementById("userTable");
-
+            const table = document.getElementById("userTable");
 
             table.innerHTML = "";
 
 
             users.forEach(function(user, index) {
 
-                const row =
-                    document.createElement("tr");
+                const row = document.createElement("tr");
 
 
-                row.innerHTML = `
+                const values = [
+                    index + 1,
+                    user.name || "N/A",
+                    user.email || "N/A",
+                    user.role || "user"
+                ];
 
-                    <td>${index + 1}</td>
 
-                    <td>${user.name}</td>
+                values.forEach(function(value) {
 
-                    <td>${user.email}</td>
+                    const cell = document.createElement("td");
 
-                    <td>
-                        <span class="status-badge">
-                            ${user.role}
-                        </span>
-                    </td>
+                    cell.textContent = value;
 
-                    <td>
+                    row.appendChild(cell);
 
-                        ${
-                            user.role === "admin"
-                            ?
-                            "<span>Protected</span>"
-                            :
-                            `<button
-                                class="danger-btn"
-                                onclick="deleteUser(${index})"
-                            >
-                                Delete
-                            </button>`
-                        }
+                });
 
-                    </td>
 
-                `;
+                const actionCell = document.createElement("td");
 
+
+                if (user.role === "admin") {
+
+                    actionCell.textContent = "Protected";
+
+                } else {
+
+                    const deleteButton =
+                        document.createElement("button");
+
+                    deleteButton.className = "danger-btn";
+                    deleteButton.textContent = "Delete";
+
+                    deleteButton.addEventListener("click", function() {
+
+                        deleteUser(index);
+
+                    });
+
+                    actionCell.appendChild(deleteButton);
+
+                }
+
+
+                row.appendChild(actionCell);
 
                 table.appendChild(row);
 
@@ -338,34 +351,30 @@
         }
 
 
+        // DELETE USER
+
         function deleteUser(index) {
 
-            let users =
-                JSON.parse(
-                    localStorage.getItem("users")
-                ) || [];
+            let users = JSON.parse(
+                localStorage.getItem("users")
+            ) || [];
 
 
             const user = users[index];
 
 
             if (!user || user.role === "admin") {
-
                 return;
-
             }
 
 
-            const confirmDelete =
-                confirm(
-                    "Delete user " + user.name + "?"
-                );
+            const confirmDelete = confirm(
+                "Delete user " + user.name + "?"
+            );
 
 
             if (!confirmDelete) {
-
                 return;
-
             }
 
 
@@ -383,9 +392,277 @@
         }
 
 
-        checkAdmin();
+        // LOAD ALL APPLICATIONS
 
-        loadUsers();
+        function loadApplications() {
+
+            const applications = JSON.parse(
+                localStorage.getItem("applications")
+            ) || [];
+
+            const users = JSON.parse(
+                localStorage.getItem("users")
+            ) || [];
+
+
+            document.getElementById(
+                "totalApplications"
+            ).textContent = applications.length;
+
+
+            const table = document.getElementById(
+                "applicationTable"
+            );
+
+            table.innerHTML = "";
+
+
+            const search = document.getElementById(
+                "applicationSearch"
+            ).value.toLowerCase();
+
+            const selectedStatus = document.getElementById(
+                "statusFilter"
+            ).value;
+
+
+            const filteredApplications = applications.filter(
+                function(app) {
+
+                    const owner = users.find(
+                        user => user.email === app.userEmail
+                    );
+
+
+                    const userName = owner
+                        ? owner.name || ""
+                        : "";
+
+
+                    const searchText = [
+
+                        userName,
+                        app.userEmail,
+                        app.company,
+                        app.jobTitle,
+                        app.location
+
+                    ].join(" ").toLowerCase();
+
+
+                    const matchesSearch =
+                        searchText.includes(search);
+
+
+                    const matchesStatus =
+                        selectedStatus === "All" ||
+                        (app.status || "Applied") === selectedStatus;
+
+
+                    return matchesSearch && matchesStatus;
+
+                }
+            );
+
+
+            if (filteredApplications.length === 0) {
+
+                const row = document.createElement("tr");
+
+                const cell = document.createElement("td");
+
+                cell.colSpan = 6;
+
+                cell.textContent = "No applications found.";
+
+                row.appendChild(cell);
+
+                table.appendChild(row);
+
+                return;
+
+            }
+
+
+            filteredApplications.forEach(function(app, index) {
+
+                const row = document.createElement("tr");
+
+
+                const owner = users.find(
+                    user => user.email === app.userEmail
+                );
+
+
+                // SERIAL NUMBER
+
+                const serialCell = document.createElement("td");
+
+                serialCell.textContent = index + 1;
+
+                row.appendChild(serialCell);
+
+
+                // USER DETAILS
+
+                const userCell = document.createElement("td");
+
+                userCell.textContent = owner
+                    ? owner.name || app.userEmail
+                    : app.userEmail || "Unknown User";
+
+                row.appendChild(userCell);
+
+
+                // COMPANY
+
+                const companyCell = document.createElement("td");
+
+                companyCell.textContent = app.company || "N/A";
+
+                row.appendChild(companyCell);
+
+
+                // JOB TITLE
+
+                const titleCell = document.createElement("td");
+
+                titleCell.textContent = app.jobTitle || "N/A";
+
+                row.appendChild(titleCell);
+
+
+                // APPLICATION DATE
+
+                const dateCell = document.createElement("td");
+
+                dateCell.textContent =
+                    app.applicationDate || "N/A";
+
+                row.appendChild(dateCell);
+
+
+                // STATUS DROPDOWN
+
+                const statusCell = document.createElement("td");
+
+                const statusSelect =
+                    document.createElement("select");
+
+
+                const statuses = [
+
+                    "Applied",
+                    "Shortlisted",
+                    "Interview",
+                    "Rejected",
+                    "Selected"
+
+                ];
+
+
+                const currentStatus = statuses.includes(app.status)
+                    ? app.status
+                    : "Applied";
+
+
+                statuses.forEach(function(status) {
+
+                    const option = document.createElement("option");
+
+                    option.value = status;
+
+                    option.textContent = status;
+
+
+                    if (status === currentStatus) {
+                        option.selected = true;
+                    }
+
+
+                    statusSelect.appendChild(option);
+
+                });
+
+
+                statusSelect.addEventListener(
+                    "change",
+                    function() {
+
+                        updateApplicationStatus(
+                            app.id,
+                            statusSelect.value
+                        );
+
+                    }
+                );
+
+
+                statusCell.appendChild(statusSelect);
+
+                row.appendChild(statusCell);
+
+                table.appendChild(row);
+
+            });
+
+        }
+
+
+        // UPDATE APPLICATION STATUS
+
+        function updateApplicationStatus(applicationId, newStatus) {
+
+            const applications = JSON.parse(
+                localStorage.getItem("applications")
+            ) || [];
+
+
+            const application = applications.find(
+                app => String(app.id) === String(applicationId)
+            );
+
+
+            if (!application) {
+
+                alert("Application not found.");
+
+                return;
+
+            }
+
+
+            application.status = newStatus;
+
+
+            localStorage.setItem(
+                "applications",
+                JSON.stringify(applications)
+            );
+
+
+            const message = document.getElementById(
+                "applicationMessage"
+            );
+
+
+            message.textContent =
+                "Application status updated to " + newStatus + ".";
+
+            message.className = "message success";
+
+        }
+
+
+        // START ADMIN DASHBOARD
+
+        if (checkAdmin()) {
+
+            loadUsers();
+
+            loadApplications();
+
+        }
 
     </script>
 
