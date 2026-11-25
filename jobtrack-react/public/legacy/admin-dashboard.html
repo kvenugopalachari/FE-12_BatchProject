@@ -1,335 +1,413 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Admin Dashboard - JobTrack</title>
 
     <link rel="stylesheet" href="style.css">
 
-</head>
+    <style>
+        body {
+            background: #f4f7fb;
+            font-family: Arial, sans-serif;
+        }
 
+        .admin-container {
+            max-width: 1400px;
+            margin: 35px auto;
+            padding: 20px;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .admin-header h1 {
+            margin-bottom: 8px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+        }
+
+        .stat-card h3 {
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        .stat-card h2 {
+            font-size: 30px;
+            margin-top: 12px;
+            color: #2563eb;
+        }
+
+        .admin-section {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+
+        .admin-section h2 {
+            margin-bottom: 8px;
+        }
+
+        .admin-section p {
+            color: #64748b;
+            margin-bottom: 22px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th, td {
+            padding: 17px 14px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #334155;
+        }
+
+        .status-select {
+            padding: 9px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            cursor: pointer;
+            background: white;
+        }
+
+        .delete-btn {
+            background: #fee2e2;
+            color: #dc2626;
+            border: none;
+            padding: 9px 15px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .refresh-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 13px 22px;
+            border-radius: 9px;
+            cursor: pointer;
+        }
+
+        .protected {
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+        }
+
+        @media(max-width: 800px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width: 450px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+</head>
 
 <body>
 
     <nav class="navbar">
 
-        <div class="logo">
-            JobTrack Admin
-        </div>
+        <div class="logo">JobTrack Admin</div>
 
         <div class="nav-links">
-
-            <a href="admin-dashboard.html">
-                Admin Dashboard
-            </a>
-
-            <a href="#" onclick="logout()">
-                Logout
-            </a>
-
+            <a href="admin-dashboard.html">Dashboard</a>
+            <a href="index.html" onclick="logout()">Logout</a>
         </div>
 
     </nav>
 
 
-    <main class="container">
+    <main class="admin-container">
 
-        <section class="page-header">
+        <section class="admin-header">
 
             <div>
-
                 <h1>Admin Dashboard</h1>
-
-                <p>
-                    Manage users and monitor the system.
-                </p>
-
+                <p>Manage users and job applications.</p>
             </div>
+
+            <button class="refresh-btn" onclick="loadDashboard()">
+                Refresh
+            </button>
 
         </section>
 
+
+        <!-- STATISTICS -->
 
         <section class="stats-grid">
 
             <div class="stat-card">
-
                 <h3>Total Users</h3>
-
-                <p id="totalUsers">
-                    0
-                </p>
-
+                <h2 id="totalUsers">0</h2>
             </div>
 
-
             <div class="stat-card">
-
-                <h3>Regular Users</h3>
-
-                <p id="regularUsers">
-                    0
-                </p>
-
+                <h3>Total Applications</h3>
+                <h2 id="totalApplications">0</h2>
             </div>
 
-
             <div class="stat-card">
-
-                <h3>Administrators</h3>
-
-                <p id="adminUsers">
-                    0
-                </p>
-
+                <h3>Interviews</h3>
+                <h2 id="totalInterviews">0</h2>
             </div>
 
-
             <div class="stat-card">
-
-                <h3>Applications</h3>
-
-                <p id="totalApplications">
-                    0
-                </p>
-
+                <h3>Selected</h3>
+                <h2 id="totalSelected">0</h2>
             </div>
 
         </section>
 
 
-        <section class="table-card">
+        <!-- USER MANAGEMENT -->
 
-            <div class="section-title-row">
+        <section class="admin-section">
 
-                <div>
+            <h2>User Management</h2>
 
-                    <h2>User Management</h2>
+            <p>Registered users in the system.</p>
 
-                    <p class="section-description">
-                        Registered users in the system.
-                    </p>
+            <table>
 
-                </div>
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
 
-                <button
-                    class="primary-btn small-btn"
-                    onclick="loadUsers()"
-                >
-                    Refresh
-                </button>
+                <tbody id="usersTable"></tbody>
 
-            </div>
-
-
-            <div class="table-wrapper">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>S.No</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Action</th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody id="userTable">
-
-                    </tbody>
-
-                </table>
-
-            </div>
+            </table>
 
         </section>
 
 
-        <section class="content-section">
+        <!-- APPLICATION MANAGEMENT -->
 
-            <h2>Admin Functions</h2>
+        <section class="admin-section">
 
+            <h2>Application Management</h2>
 
-            <div class="feature-grid">
+            <p>
+                View all submitted applications and update their status.
+            </p>
 
-                <div class="feature-card">
+            <table>
 
-                    <div class="feature-icon">
-                        👥
-                    </div>
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Applicant</th>
+                        <th>Company</th>
+                        <th>Job Title</th>
+                        <th>Location</th>
+                        <th>Application Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
 
-                    <h3>User Management</h3>
+                <tbody id="applicationsTable"></tbody>
 
-                    <p>
-                        View and manage registered users.
-                    </p>
-
-                </div>
-
-
-                <div class="feature-card">
-
-                    <div class="feature-icon">
-                        📊
-                    </div>
-
-                    <h3>System Monitoring</h3>
-
-                    <p>
-                        Monitor applications and system data.
-                    </p>
-
-                </div>
-
-
-                <div class="feature-card">
-
-                    <div class="feature-icon">
-                        ⚙️
-                    </div>
-
-                    <h3>System Status</h3>
-
-                    <p>
-                        JobTrack system is currently active.
-                    </p>
-
-                </div>
-
-            </div>
+            </table>
 
         </section>
 
     </main>
 
 
-    <script src="script.js"></script>
-
     <script>
 
-        function checkAdmin() {
+        // ADMIN LOGIN CHECK
 
-            const user =
-                JSON.parse(
-                    localStorage.getItem("loggedInUser")
-                );
+        const currentUser = JSON.parse(
+            localStorage.getItem("loggedInUser") || "null"
+        );
+
+        if (
+            !currentUser ||
+            String(currentUser.role || "").toLowerCase() !== "admin"
+        ) {
+            alert("Please login as an administrator.");
+            window.location.href = "index.html";
+        }
 
 
-            if (!user || user.role !== "admin") {
+        // GET USERS AND APPLICATIONS
 
-                window.location.href = "index.html";
+        function getUsers() {
 
-            }
+            return JSON.parse(
+                localStorage.getItem("users")
+            ) || [];
 
         }
 
 
+        function getApplications() {
+
+            return JSON.parse(
+                localStorage.getItem("applications")
+            ) || [];
+
+        }
+
+
+        // DASHBOARD
+
+        function loadDashboard() {
+
+            const users = getUsers();
+
+            const applications = getApplications();
+
+            document.getElementById("totalUsers").textContent =
+                users.length;
+
+            document.getElementById("totalApplications").textContent =
+                applications.length;
+
+            document.getElementById("totalInterviews").textContent =
+                applications.filter(
+                    app => app.status === "Interview"
+                ).length;
+
+            document.getElementById("totalSelected").textContent =
+                applications.filter(
+                    app => app.status === "Selected"
+                ).length;
+
+
+            loadUsers();
+
+            loadApplications();
+
+        }
+
+
+        // USER MANAGEMENT
+
         function loadUsers() {
 
-            const users =
-                JSON.parse(
-                    localStorage.getItem("users")
-                ) || [];
+            const users = getUsers();
 
-
-            const applications =
-                JSON.parse(
-                    localStorage.getItem("applications")
-                ) || [];
-
-
-            const regularUsers =
-                users.filter(
-                    user => user.role === "user"
-                ).length;
-
-
-            const adminUsers =
-                users.filter(
-                    user => user.role === "admin"
-                ).length;
-
-
-            document.getElementById(
-                "totalUsers"
-            ).textContent = users.length;
-
-
-            document.getElementById(
-                "regularUsers"
-            ).textContent = regularUsers;
-
-
-            document.getElementById(
-                "adminUsers"
-            ).textContent = adminUsers;
-
-
-            document.getElementById(
-                "totalApplications"
-            ).textContent = applications.length;
-
-
-            const table =
-                document.getElementById("userTable");
-
+            const table = document.getElementById("usersTable");
 
             table.innerHTML = "";
 
+            if (users.length === 0) {
 
-            users.forEach(function(user, index) {
-
-                const row =
-                    document.createElement("tr");
-
-
-                row.innerHTML = `
-
-                    <td>${index + 1}</td>
-
-                    <td>${user.name}</td>
-
-                    <td>${user.email}</td>
-
-                    <td>
-                        <span class="status-badge">
-                            ${user.role}
-                        </span>
-                    </td>
-
-                    <td>
-
-                        ${
-                            user.role === "admin"
-                            ?
-                            "<span>Protected</span>"
-                            :
-                            `<button
-                                class="danger-btn"
-                                onclick="deleteUser(${index})"
-                            >
-                                Delete
-                            </button>`
-                        }
-
-                    </td>
-
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="empty-message">
+                            No registered users found.
+                        </td>
+                    </tr>
                 `;
 
+                return;
+            }
+
+            users.forEach((user, index) => {
+
+                const role =
+                    String(user.role || "user").toLowerCase();
+
+                const isAdmin = role === "admin";
+
+                const row = document.createElement("tr");
+
+                const values = [
+                    index + 1,
+                    user.name || user.username || "User",
+                    user.email || "N/A",
+                    role
+                ];
+
+                values.forEach(value => {
+
+                    const cell = document.createElement("td");
+
+                    cell.textContent = value;
+
+                    row.appendChild(cell);
+
+                });
+
+                const actionCell = document.createElement("td");
+
+                if (isAdmin) {
+
+                    actionCell.innerHTML =
+                        '<span class="protected">Protected</span>';
+
+                } else {
+
+                    const deleteButton = document.createElement("button");
+
+                    deleteButton.textContent = "Delete";
+
+                    deleteButton.className = "delete-btn";
+
+                    deleteButton.addEventListener("click", () => {
+
+                        deleteUser(user.email);
+
+                    });
+
+                    actionCell.appendChild(deleteButton);
+
+                }
+
+                row.appendChild(actionCell);
 
                 table.appendChild(row);
 
@@ -338,57 +416,186 @@
         }
 
 
-        function deleteUser(index) {
+        // DELETE USER
 
-            let users =
-                JSON.parse(
-                    localStorage.getItem("users")
-                ) || [];
+        function deleteUser(email) {
 
-
-            const user = users[index];
-
-
-            if (!user || user.role === "admin") {
-
+            if (!confirm("Are you sure you want to delete this user?")) {
                 return;
-
             }
 
+            let users = getUsers();
 
-            const confirmDelete =
-                confirm(
-                    "Delete user " + user.name + "?"
-                );
-
-
-            if (!confirmDelete) {
-
-                return;
-
-            }
-
-
-            users.splice(index, 1);
-
+            users = users.filter(
+                user => user.email !== email
+            );
 
             localStorage.setItem(
                 "users",
                 JSON.stringify(users)
             );
 
+            loadDashboard();
 
-            loadUsers();
+            alert("User deleted successfully!");
 
         }
 
 
-        checkAdmin();
+        // APPLICATION MANAGEMENT
 
-        loadUsers();
+        function loadApplications() {
+
+            const applications = getApplications();
+
+            const users = getUsers();
+
+            const table =
+                document.getElementById("applicationsTable");
+
+            table.innerHTML = "";
+
+            if (applications.length === 0) {
+
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="empty-message">
+                            No job applications found.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+            }
+
+            applications.forEach((app, index) => {
+
+                const applicant = users.find(
+                    user => user.email === app.userEmail
+                );
+
+                const row = document.createElement("tr");
+
+                const details = [
+                    index + 1,
+                    applicant
+                        ? (applicant.name || applicant.username || app.userEmail)
+                        : app.userEmail,
+                    app.company || "",
+                    app.jobTitle || "",
+                    app.location || "",
+                    app.applicationDate || ""
+                ];
+
+                details.forEach(value => {
+
+                    const cell = document.createElement("td");
+
+                    cell.textContent = value;
+
+                    row.appendChild(cell);
+
+                });
+
+
+                // ADMIN STATUS DROPDOWN
+
+                const statusCell = document.createElement("td");
+
+                const select = document.createElement("select");
+
+                select.className = "status-select";
+
+                const statuses = [
+                    "Applied",
+                    "Shortlisted",
+                    "Interview",
+                    "Selected",
+                    "Rejected"
+                ];
+
+                statuses.forEach(status => {
+
+                    const option = document.createElement("option");
+
+                    option.value = status;
+
+                    option.textContent = status;
+
+                    if (status === (app.status || "Applied")) {
+                        option.selected = true;
+                    }
+
+                    select.appendChild(option);
+
+                });
+
+
+                select.addEventListener("change", function() {
+
+                    updateApplicationStatus(
+                        app.id,
+                        this.value
+                    );
+
+                });
+
+                statusCell.appendChild(select);
+
+                row.appendChild(statusCell);
+
+                table.appendChild(row);
+
+            });
+
+        }
+
+
+        // UPDATE APPLICATION STATUS
+
+        function updateApplicationStatus(id, newStatus) {
+
+            const applications = getApplications();
+
+            const index = applications.findIndex(
+                app => String(app.id) === String(id)
+            );
+
+            if (index === -1) {
+
+                alert("Application not found.");
+
+                return;
+            }
+
+            applications[index].status = newStatus;
+
+            localStorage.setItem(
+                "applications",
+                JSON.stringify(applications)
+            );
+
+            loadDashboard();
+
+            alert("Application status updated successfully!");
+
+        }
+
+
+        // LOGOUT
+
+        function logout() {
+
+            localStorage.removeItem("loggedInUser");
+
+        }
+
+
+        // INITIAL LOAD
+
+        loadDashboard();
 
     </script>
 
 </body>
-
 </html>
