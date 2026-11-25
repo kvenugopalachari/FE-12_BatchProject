@@ -1,209 +1,743 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - JobTrack</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Account | JobTrack</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    min-height: 100vh;
+    background: #f5f7ff;
+    color: #172554;
+}
+
+.auth-wrapper {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+/* LEFT PANEL */
+
+.auth-left {
+    background: linear-gradient(145deg, #312e81, #4f46e5, #6366f1);
+    color: white;
+    padding: 45px 9%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-left::before,
+.auth-left::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: #ffffff0c;
+}
+
+.auth-left::before {
+    width: 350px;
+    height: 350px;
+    top: -120px;
+    right: -120px;
+}
+
+.auth-left::after {
+    width: 280px;
+    height: 280px;
+    bottom: -100px;
+    left: -100px;
+}
+
+.brand {
+    position: relative;
+    z-index: 1;
+}
+
+.brand a {
+    color: white;
+    text-decoration: none;
+    font-size: 29px;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.brand a span {
+    color: #c7d2fe;
+}
+
+.brand p {
+    color: #ddd6fe;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.left-content {
+    position: relative;
+    z-index: 1;
+    max-width: 500px;
+    margin: 55px auto;
+}
+
+.left-content .tag {
+    display: inline-block;
+    padding: 9px 15px;
+    background: #ffffff1c;
+    border: 1px solid #ffffff30;
+    border-radius: 30px;
+    font-size: 12px;
+    margin-bottom: 25px;
+}
+
+.left-content h1 {
+    font-size: clamp(34px, 4vw, 52px);
+    line-height: 1.2;
+    letter-spacing: -1.5px;
+}
+
+.left-content h1 span {
+    color: #c7d2fe;
+}
+
+.left-content > p {
+    color: #e0e7ff;
+    line-height: 1.9;
+    font-size: 15px;
+    margin-top: 22px;
+}
+
+.benefits {
+    margin-top: 35px;
+    display: grid;
+    gap: 17px;
+}
+
+.benefit {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    font-size: 14px;
+    color: #f1f5ff;
+}
+
+.benefit-icon {
+    width: 35px;
+    height: 35px;
+    background: #ffffff20;
+    border-radius: 9px;
+    display: grid;
+    place-items: center;
+}
+
+.left-footer {
+    position: relative;
+    z-index: 1;
+    font-size: 12px;
+    color: #ddd6fe;
+}
+
+/* RIGHT PANEL */
+
+.auth-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 35px 7%;
+}
+
+.auth-box {
+    width: 100%;
+    max-width: 430px;
+    background: white;
+    padding: 38px;
+    border-radius: 19px;
+    box-shadow: 0 15px 50px #1e293b0c;
+    border: 1px solid #e9edf7;
+}
+
+.form-heading {
+    margin-bottom: 28px;
+}
+
+.form-heading .welcome {
+    color: #4f46e5;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.form-heading h2 {
+    font-size: 29px;
+    color: #172554;
+    margin: 10px 0;
+}
+
+.form-heading p {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* FORM */
+
+.form-group {
+    margin-bottom: 19px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 9px;
+    color: #334155;
+}
+
+.input-wrap {
+    position: relative;
+}
+
+.form-group input {
+    width: 100%;
+    height: 49px;
+    padding: 0 43px 0 14px;
+    border: 1px solid #dbe2ef;
+    border-radius: 9px;
+    outline: none;
+    background: #fafbff;
+    font-size: 14px;
+    transition: .3s;
+}
+
+.form-group input:focus {
+    border-color: #4f46e5;
+    background: white;
+    box-shadow: 0 0 0 3px #4f46e51a;
+}
+
+.form-group input::placeholder {
+    color: #a0aec0;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 0;
+    background: none;
+    cursor: pointer;
+    font-size: 17px;
+    color: #64748b;
+}
+
+/* PASSWORD STRENGTH */
+
+.strength-area {
+    margin-top: 9px;
+}
+
+.strength-bars {
+    display: flex;
+    gap: 5px;
+}
+
+.strength-bars span {
+    height: 4px;
+    flex: 1;
+    border-radius: 5px;
+    background: #e2e8f0;
+    transition: .3s;
+}
+
+.strength-text {
+    display: block;
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 6px;
+}
+
+/* BUTTON */
+
+.primary-btn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 9px;
+    background: #4f46e5;
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.primary-btn:hover {
+    background: #3730a3;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px #4f46e544;
+}
+
+.primary-btn:disabled {
+    opacity: .7;
+    cursor: wait;
+    transform: none;
+}
+
+/* MESSAGES */
+
+.message {
+    font-size: 13px;
+    text-align: center;
+    margin-top: 16px;
+    line-height: 1.6;
+    min-height: 18px;
+}
+
+.message.error {
+    color: #dc2626;
+}
+
+.message.success {
+    color: #15803d;
+}
+
+.auth-footer {
+    margin-top: 25px;
+    text-align: center;
+    border-top: 1px solid #edf0f7;
+    padding-top: 22px;
+}
+
+.auth-footer p {
+    display: inline;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.auth-footer a {
+    color: #4f46e5;
+    font-size: 13px;
+    font-weight: 800;
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+.back-home {
+    display: block;
+    text-align: center;
+    margin-top: 18px;
+    color: #64748b;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.back-home:hover {
+    color: #4f46e5;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 850px) {
+    .auth-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-left {
+        min-height: 300px;
+        padding: 30px 7%;
+    }
+
+    .left-content {
+        margin: 45px 0 20px;
+    }
+
+    .left-content h1 {
+        font-size: 36px;
+    }
+
+    .benefits {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .left-footer {
+        margin-top: 20px;
+    }
+
+    .auth-right {
+        padding: 45px 6%;
+    }
+}
+
+@media(max-width: 480px) {
+    .auth-box {
+        padding: 26px 21px;
+    }
+
+    .left-content h1 {
+        font-size: 32px;
+    }
+
+    .benefits {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
 </head>
 
-<body class="auth-page">
+<body>
 
-    <div class="auth-container">
+<div class="auth-wrapper">
 
-        <div class="auth-box">
+    <!-- LEFT INFORMATION PANEL -->
 
-            <div class="brand">
-                <h1>JobTrack</h1>
-                <p>Online Job Application Tracker</p>
-            </div>
+    <section class="auth-left">
 
-            <h2>Create Account</h2>
+        <div class="brand">
+            <a href="home.html">Job<span>Track.</span></a>
+            <p>ONLINE JOB APPLICATION TRACKER</p>
+        </div>
 
-            <p class="auth-subtitle">
-                Create your user account
+        <div class="left-content">
+
+            <span class="tag">✦ START YOUR JOURNEY TODAY</span>
+
+            <h1>
+                Your Next Opportunity
+                <span>Starts Here.</span>
+            </h1>
+
+            <p>
+                Create your JobTrack account and take control
+                of your career journey. Organize applications,
+                manage interviews, and stay updated with every
+                opportunity.
             </p>
 
-            <form id="signupForm">
+            <div class="benefits">
 
-                <div class="form-group">
-                    <label>Full Name</label>
-
-                    <input
-                        type="text"
-                        id="name"
-                        placeholder="Enter your full name"
-                        required
-                    >
+                <div class="benefit">
+                    <span class="benefit-icon">📋</span>
+                    Track your job applications
                 </div>
 
-
-                <div class="form-group">
-                    <label>Email</label>
-
-                    <input
-                        type="email"
-                        id="email"
-                        placeholder="Enter your email"
-                        required
-                    >
+                <div class="benefit">
+                    <span class="benefit-icon">📅</span>
+                    Manage interview schedules
                 </div>
 
-
-                <div class="form-group">
-                    <label>Password</label>
-
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="Minimum 6 characters"
-                        required
-                    >
+                <div class="benefit">
+                    <span class="benefit-icon">🔔</span>
+                    Never miss important updates
                 </div>
-
-
-                <div class="form-group">
-                    <label>Confirm Password</label>
-
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        placeholder="Confirm your password"
-                        required
-                    >
-                </div>
-
-
-                <button type="submit" class="primary-btn">
-                    Create Account
-                </button>
-
-            </form>
-
-
-            <p id="signupMessage" class="message"></p>
-
-
-            <div class="auth-footer">
-
-                <p>Already have an account?</p>
-
-                <a href="index.html">
-                    Login
-                </a>
 
             </div>
 
         </div>
 
-    </div>
+        <div class="left-footer">
+            © 2026 JobTrack. All rights reserved.
+        </div>
+
+    </section>
+
+    <!-- SIGNUP FORM -->
+
+    <section class="auth-right">
+
+        <div class="auth-box">
+
+            <div class="form-heading">
+                <span class="welcome">GET STARTED</span>
+                <h2>Create Account</h2>
+                <p>
+                    Join JobTrack and organize your job search
+                    in one place.
+                </p>
+            </div>
+
+            <form id="signupForm">
+
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <div class="input-wrap">
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Enter your full name"
+                            autocomplete="name"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-wrap">
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="Enter your email"
+                            autocomplete="email"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+
+                    <div class="input-wrap">
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Minimum 6 characters"
+                            autocomplete="new-password"
+                            minlength="6"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            data-target="password"
+                            aria-label="Show password"
+                        >👁</button>
+                    </div>
+
+                    <div class="strength-area">
+                        <div class="strength-bars">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <small class="strength-text">
+                            Password strength: Not entered
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+
+                    <div class="input-wrap">
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="Confirm your password"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            data-target="confirmPassword"
+                            aria-label="Show password"
+                        >👁</button>
+                    </div>
+                </div>
+
+                <button type="submit" class="primary-btn" id="signupButton">
+                    Create My Account →
+                </button>
+
+            </form>
+
+            <p id="signupMessage" class="message" aria-live="polite"></p>
+
+            <div class="auth-footer">
+                <p>Already have an account?</p>
+                <a href="index.html">Login</a>
+            </div>
+
+            <a href="home.html" class="back-home">
+                ← Back to Homepage
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script>
+
+// SHOW / HIDE PASSWORD
+
+document.querySelectorAll(".toggle-password").forEach(button => {
+    button.addEventListener("click", () => {
+        const input = document.getElementById(button.dataset.target);
+        const isPassword = input.type === "password";
+
+        input.type = isPassword ? "text" : "password";
+        button.textContent = isPassword ? "🙈" : "👁";
+        button.setAttribute(
+            "aria-label",
+            isPassword ? "Hide password" : "Show password"
+        );
+    });
+});
 
 
-    <script>
+// PASSWORD STRENGTH INDICATOR
 
-        document.getElementById("signupForm").addEventListener(
-            "submit",
-            function(event) {
+const passwordInput = document.getElementById("password");
+const strengthBars = document.querySelectorAll(".strength-bars span");
+const strengthText = document.querySelector(".strength-text");
 
-                event.preventDefault();
+passwordInput.addEventListener("input", () => {
 
+    const password = passwordInput.value;
+    let strength = 0;
 
-                const name =
-                    document.getElementById("name").value.trim();
+    if (password.length >= 6) strength++;
+    if (/[A-Z]/.test(password) && /[a-z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
 
-                const email =
-                    document.getElementById("email").value.trim();
+    const labels = [
+        "Not entered",
+        "Weak",
+        "Fair",
+        "Good",
+        "Strong"
+    ];
 
-                const password =
-                    document.getElementById("password").value;
+    const colors = [
+        "#e2e8f0",
+        "#ef4444",
+        "#f59e0b",
+        "#3b82f6",
+        "#16a34a"
+    ];
 
-                const confirmPassword =
-                    document.getElementById("confirmPassword").value;
+    strengthBars.forEach((bar, index) => {
+        bar.style.background =
+            index < strength ? colors[strength] : "#e2e8f0";
+    });
 
-                const message =
-                    document.getElementById("signupMessage");
+    strengthText.textContent =
+        "Password strength: " + labels[strength];
 
-
-                if (password.length < 6) {
-
-                    message.textContent =
-                        "Password must contain at least 6 characters.";
-
-                    message.className = "message error";
-
-                    return;
-                }
-
-
-                if (password !== confirmPassword) {
-
-                    message.textContent =
-                        "Passwords do not match.";
-
-                    message.className = "message error";
-
-                    return;
-                }
+    strengthText.style.color =
+        strength === 0 ? "#94a3b8" : colors[strength];
+});
 
 
-                let users =
-                    JSON.parse(localStorage.getItem("users")) || [];
+// SIGNUP FUNCTIONALITY - PRESERVED
 
+document.getElementById("signupForm").addEventListener(
+    "submit",
+    function(event) {
 
-                const existingUser =
-                    users.find(user => user.email === email);
+        event.preventDefault();
 
+        const name =
+            document.getElementById("name").value.trim();
 
-                if (existingUser) {
+        const email =
+            document.getElementById("email").value.trim();
 
-                    message.textContent =
-                        "An account with this email already exists.";
+        const password =
+            document.getElementById("password").value;
 
-                    message.className = "message error";
+        const confirmPassword =
+            document.getElementById("confirmPassword").value;
 
-                    return;
-                }
+        const message =
+            document.getElementById("signupMessage");
 
+        const button =
+            document.getElementById("signupButton");
 
-                const newUser = {
+        function showError(text) {
+            message.textContent = text;
+            message.className = "message error";
+        }
 
-                    name: name,
-                    email: email,
-                    password: password,
-                    role: "user"
+        if (!name) {
+            showError("Please enter your full name.");
+            return;
+        }
 
-                };
+        if (password.length < 6) {
+            showError("Password must contain at least 6 characters.");
+            return;
+        }
 
+        if (password !== confirmPassword) {
+            showError("Passwords do not match.");
+            return;
+        }
 
-                users.push(newUser);
+        let users =
+            JSON.parse(localStorage.getItem("users")) || [];
 
+        const existingUser =
+            users.find(user =>
+                user.email.toLowerCase() === email.toLowerCase()
+            );
 
-                localStorage.setItem(
-                    "users",
-                    JSON.stringify(users)
-                );
+        if (existingUser) {
+            showError("An account with this email already exists.");
+            return;
+        }
 
+        const newUser = {
+            name: name,
+            email: email,
+            password: password,
+            role: "user"
+        };
 
-                message.textContent =
-                    "Account created successfully!";
+        users.push(newUser);
 
-                message.className =
-                    "message success";
-
-
-                document.getElementById("signupForm").reset();
-
-
-                setTimeout(function() {
-
-                    window.location.href = "index.html";
-
-                }, 1000);
-
-            }
+        localStorage.setItem(
+            "users",
+            JSON.stringify(users)
         );
 
-    </script>
+        message.textContent = "Account created successfully!";
+        message.className = "message success";
+
+        button.disabled = true;
+        button.textContent = "Account Created ✓";
+
+        document.getElementById("signupForm").reset();
+
+        strengthBars.forEach(bar => {
+            bar.style.background = "#e2e8f0";
+        });
+
+        strengthText.textContent = "Password strength: Not entered";
+        strengthText.style.color = "#94a3b8";
+
+        setTimeout(function() {
+            window.location.href = "index.html";
+        }, 1200);
+
+    }
+);
+
+</script>
 
 </body>
 </html>
